@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trashmates — Woodcrest Apartments, Las Cruces NM</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1a1a2e;--paper:#f7f4ef;--cream:#eee9df;--accent:#22c55e;--accent2:#16a34a;--gold:#f59e0b;--red:#ef4444;--blue:#3b82f6;--muted:#6b7280;--border:rgba(26,26,46,0.1);--card:#fff;--shadow:0 2px 16px rgba(26,26,46,0.07);--shadow-lg:0 8px 40px rgba(26,26,46,0.14);--r:12px;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(--ink);z-index:100;display:flex;flex-direction:column;}
+  .logo-area{padding:24px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .logo-icon{width:44px;height:44px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:10px;}
+  .logo-main{font-family:'Bebas Neue',sans-serif;font-size:28px;color:white;letter-spacing:1.5px;line-height:1;}
+  .logo-sub{font-size:9px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+  .prop-chip{margin-top:12px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);border-radius:8px;padding:8px 10px;}
+  .prop-chip .pn{font-size:12px;font-weight:600;color:var(--accent);}
+  .prop-chip .pa{font-size:10px;color:rgba(255,255,255,0.4);margin-top:1px;}
+  nav{flex:1;padding:12px;overflow-y:auto;}
+  .nav-lbl{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:14px 8px 5px;}
+  .nb{display:flex;align-items:center;gap:9px;width:100%;padding:9px 10px;border-radius:8px;border:none;background:none;color:rgba(255,255,255,0.55);font-size:13.5px;font-weight:400;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.13s;text-align:left;}
+  .nb:hover{background:rgba(255,255,255,0.07);color:white;}
+  .nb.active{background:var(--accent);color:white;font-weight:600;}
+  .nb .ic{font-size:15px;width:20px;text-align:center;}
+  .sf{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.07);}
+  .sf p{font-size:10px;color:rgba(255,255,255,0.25);line-height:1.7;}
+  .main{margin-left:230px;min-height:100vh;}
+  .topbar{background:var(--card);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+  .topbar h1{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
+  .topbar p{font-size:11px;color:var(--muted);}
+  .tr{display:flex;gap:10px;align-items:center;}
+  .content{padding:24px 28px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+  .stat::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+  .stat.g::after{background:var(--accent);}.stat.o::after{background:var(--gold);}.stat.b::after{background:var(--blue);}.stat.r::after{background:var(--red);}
+  .sl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+  .sv{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:1px;line-height:1.1;margin:5px 0 3px;}
+  .sn{font-size:11.5px;color:var(--muted);}
+  .sn .up{color:var(--accent);font-weight:600;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px;}
+  .ch{padding:18px 22px 0;display:flex;align-items:flex-start;justify-content:space-between;}
+  .ch h3{font-size:14.5px;font-weight:700;}
+  .ch p{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .cb{padding:18px 22px 22px;}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .g12{display:grid;grid-template-columns:1fr 2fr;gap:18px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{text-align:left;padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);background:var(--cream);}
+  td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:rgba(34,197,94,0.03);}
+  .mono{font-family:'DM Mono',monospace;font-size:12px;}
+  .pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+  .pg{background:rgba(34,197,94,0.12);color:#15803d;}.po{background:rgba(245,158,11,0.12);color:#b45309;}
+  .pr{background:rgba(239,68,68,0.12);color:#dc2626;}.pb{background:rgba(59,130,246,0.12);color:#1d4ed8;}
+  .pm{background:var(--cream);color:var(--muted);}
+  .dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.13s;font-family:'DM Sans',sans-serif;}
+  .bd{background:var(--ink);color:white;}.bd:hover{background:#2d2d4e;transform:translateY(-1px);}
+  .bg{background:var(--accent);color:white;}.bg:hover{background:var(--accent2);transform:translateY(-1px);}
+  .bo{background:transparent;border:1.5px solid var(--border);color:var(--ink);}.bo:hover{border-color:var(--ink);background:var(--cream);}
+  .bsm{padding:5px 12px;font-size:12px;}
+  .fg{margin-bottom:14px;}
+  .fl{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:5px;}
+  .fi{width:100%;padding:9px 13px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'DM Sans',sans-serif;color:var(--ink);outline:none;transition:border-color 0.13s;background:white;}
+  .fi:focus{border-color:var(--accent);}
+  .fsel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:18px;padding-right:34px;}
+  .pbar{height:7px;background:var(--cream);border-radius:4px;overflow:hidden;margin:6px 0;}
+  .pf{height:100%;border-radius:4px;background:var(--accent);transition:width 0.5s;}
+  .pf.o{background:var(--gold);}.pf.b{background:var(--blue);}
+  .rw{display:flex;align-items:center;}.jb{justify-content:space-between;}.gap2{gap:8px;}
+  .mt2{margin-top:8px;}.mt3{margin-top:14px;}.mb3{margin-bottom:12px;}
+  .ts{font-size:12px;}.tm{color:var(--muted);}.f6{font-weight:600;}.f7{font-weight:700;}
+  .stl{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:1px;margin-bottom:16px;}
+  .dv{height:1px;background:var(--border);margin:16px 0;}
+  .ins{background:rgba(34,197,94,0.07);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 14px;}
+  .insw{background:rgba(245,158,11,0.08);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 14px;}
+  .po-card{border:2px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all 0.14s;display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
+  .po-card:hover{border-color:var(--accent);}.po-card.sel{border-color:var(--accent);background:rgba(34,197,94,0.05);}
+  .unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:7px;}
+  .ut{border:1.5px solid var(--border);border-radius:9px;padding:9px 5px;text-align:center;cursor:pointer;transition:all 0.14s;user-select:none;}
+  .ut .un{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;}
+  .ut .utp{font-size:9px;color:var(--muted);margin-top:2px;}
+  .ut.sp{background:rgba(245,158,11,0.08);border-color:var(--gold);}.ut.sp .un{color:#b45309;}
+  .ut.sd{background:rgba(34,197,94,0.1);border-color:var(--accent);}.ut.sd .un{color:var(--accent2);}
+  .ut.eu{background:var(--cream);opacity:0.5;cursor:default;}
+  .ut.sp:hover,.ut.sd:hover{transform:scale(1.05);box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+  .ring-w{position:relative;width:130px;height:130px;margin:0 auto 16px;}
+  .ring-w svg{transform:rotate(-90deg);}
+  .ring-c{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+  .rpct{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;line-height:1;}
+  .rlbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+  .ov{position:fixed;inset:0;background:rgba(26,26,46,0.55);z-index:200;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+  .modal{background:white;border-radius:16px;width:480px;max-width:92vw;box-shadow:var(--shadow-lg);overflow:hidden;}
+  .mh{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .mh h2{font-size:17px;font-weight:700;}.mb{padding:22px;}
+  .mf{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:9px;justify-content:flex-end;}
+  #toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:white;padding:13px 18px;border-radius:10px;font-size:13px;font-weight:600;transform:translateY(80px);transition:transform 0.3s;z-index:400;display:flex;align-items:center;gap:8px;max-width:340px;}
+  .saved{position:fixed;top:14px;right:14px;background:var(--accent);color:white;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;z-index:500;opacity:0;transition:opacity 0.3s;pointer-events:none;}
+  .page{display:none;}.page.active{display:block;animation:fu 0.25s ease both;}
+  @keyframes fu{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  .empty-st{padding:40px;text-align:center;color:var(--muted);}
+  .empty-st .ei{font-size:38px;margin-bottom:12px;}
+  @media(max-width:860px){.sidebar{width:60px;}.sidebar .logo-main,.sidebar .logo-sub,.sidebar .prop-chip,.nb span,.nav-lbl,.sf{display:none;}.main{margin-left:60px;}.stats{grid-template-columns:1fr 1fr;}.g2,.g12{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="saved" id="saved-ind">✓ Saved</div>
+
+<aside class="sidebar">
+  <div class="logo-area">
+    <div class="logo-icon">🗑️</div>
+    <div class="logo-main">Trashmates</div>
+    <div class="logo-sub">Business Dashboard</div>
+    <div class="prop-chip">
+      <div class="pn">🏢 Woodcrest Apartments</div>
+      <div class="pa">2241 Entrada Del Sol · Las Cruces, NM</div>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-lbl">Overview</div>
+    <button class="nb active" onclick="goPage('dashboard',this)"><span class="ic">📊</span><span>Dashboard</span></button>
+    <button class="nb" onclick="goPage('residents',this)"><span class="ic">👥</span><span>Residents</span></button>
+    <div class="nav-lbl">Daily Ops</div>
+    <button class="nb" onclick="goPage('routes',this)"><span class="ic">🗺️</span><span>Route Tracker</span></button>
+    <button class="nb" onclick="goPage('billing',this)"><span class="ic">💳</span><span>Billing</span></button>
+    <button class="nb" onclick="goPage('shifts',this)"><span class="ic">⏱️</span><span>Shift Log</span></button>
+    <div class="nav-lbl">Business</div>
+    <button class="nb" onclick="goPage('financials',this)"><span class="ic">📈</span><span>Financials</span></button>
+    <button class="nb" onclick="goPage('growth',this)"><span class="ic">🚀</span><span>Growth Plan</span></button>
+    <div class="nav-lbl">Resident Tools</div>
+    <button class="nb" onclick="goPage('signup',this)"><span class="ic">✍️</span><span>Sign-Up Portal</span></button>
+  </nav>
+  <div class="sf"><p>Trashmates LLC · Las Cruces, NM<br>v2.0 · Data saves automatically ✓<br>© 2025</p></div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div><h1 id="pg-title">Dashboard</h1><p id="pg-sub">Woodcrest Apartments · 96 Units · Las Cruces, NM</p></div>
+    <div class="tr">
+      <span class="pill pm" id="chip-enrolled">● 0 enrolled</span>
+      <button class="btn bg bsm" onclick="openModal('add-resident')">+ Add Resident</button>
+    </div>
+  </header>
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats">
+        <div class="stat g"><div class="sl">Enrolled Units</div><div class="sv" id="d-enr">0</div><div class="sn">of 96 total</div></div>
+        <div class="stat b"><div class="sl">Adoption Rate</div><div class="sv" id="d-rate">0%</div><div class="sn">Target: <span class="up">70%</span></div></div>
+        <div class="stat o"><div class="sl">Monthly Revenue</div><div class="sv" id="d-rev">$0</div><div class="sn" id="d-rev-n">Add residents to begin</div></div>
+        <div class="stat g"><div class="sl">Monthly Profit</div><div class="sv" id="d-profit">$0</div><div class="sn" id="d-margin-n">Break-even at 30 units</div></div>
+      </div>
+      <div class="g12">
+        <div class="card">
+          <div class="ch"><div><h3>Adoption Progress</h3><p>Woodcrest · 96 units</p></div></div>
+          <div class="cb" style="text-align:center">
+            <div class="ring-w">
+              <svg width="130" height="130" viewBox="0 0 130 130">
+                <circle cx="65" cy="65" r="54" fill="none" stroke="#eee9df" stroke-width="11"/>
+                <circle cx="65" cy="65" r="54" fill="none" stroke="#22c55e" stroke-width="11"
+                  stroke-dasharray="339" stroke-dashoffset="339" stroke-linecap="round" id="ring-arc"/>
+              </svg>
+              <div class="ring-c"><div class="rpct" id="ring-pct">0%</div><div class="rlbl">Enrolled</div></div>
+            </div>
+            <div class="mt3">
+              <div class="rw jb ts mb3"><span class="f7">Basic $40/mo</span><span class="tm" id="c-basic">0 units</span></div>
+              <div class="pbar"><div class="pf b" id="b-basic" style="width:0"></div></div>
+              <div class="rw jb ts mb3 mt2"><span class="f7">Standard $75/mo</span><span class="tm" id="c-std">0 units</span></div>
+              <div class="pbar"><div class="pf o" id="b-std" style="width:0"></div></div>
+              <div class="rw jb ts mt2"><span class="f7">Premium $100/mo</span><span class="tm" id="c-prem">0 units</span></div>
+              <div class="pbar mt2"><div class="pf" id="b-prem" style="width:0"></div></div>
+            </div>
+            <div class="dv"></div>
+            <div id="be-msg" class="ins"><div class="ts f7">🎯 Break-Even: 30 Units</div><div class="ts tm mt2">Add residents to start tracking.</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="ch"><div><h3>📋 Daily Checklist</h3><p>Resets daily · saves automatically</p></div></div>
+            <div class="cb" id="checklist-body"></div>
+          </div>
+          <div class="card">
+            <div class="ch"><div><h3>🎯 Why Woodcrest?</h3><p>Real resident pain points = your pitch</p></div></div>
+            <div class="cb" style="display:flex;flex-direction:column;gap:9px">
+              <div class="insw"><div class="ts f7">⚠️ Dumpster Overflow (Real Review)</div><div class="ts tm mt2">Residents complain about overflowing dumpsters — use this in your property manager pitch.</div></div>
+              <div class="ins"><div class="ts f7">🐾 Pet-Friendly = Upsell</div><div class="ts tm mt2">Residents already pay $40/mo pet fee. Pet waste add-on (+$10) is an easy yes.</div></div>
+              <div class="ins"><div class="ts f7">🏢 One Manager: Las Cruces Rentals</div><div class="ts tm mt2">One conversation = access to all 96 units. Call (575) 888-8337 M–F 9am–5pm.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESIDENTS -->
+    <div class="page" id="page-residents">
+      <div class="rw jb mb3" style="flex-wrap:wrap;gap:10px">
+        <div><div class="stl">Residents — Woodcrest</div><div class="ts tm" id="res-lbl">0 enrolled</div></div>
+        <div class="rw gap2">
+          <input class="fi" style="width:190px" placeholder="🔍 Name or unit..." id="res-q" oninput="filterRes()">
+          <select class="fi fsel" style="width:130px" id="res-pf" onchange="filterRes()">
+            <option value="">All Plans</option><option value="basic">Basic</option><option value="standard">Standard</option><option value="premium">Premium</option><option value="pending">Pending</option>
+          </select>
+          <button class="btn bg" onclick="openModal('add-resident')">+ Add</button>
+        </div>
+      </div>
+      <div class="card">
+        <table><thead><tr><th>Unit</th><th>Fl</th><th>Type</th><th>Name</th><th>Plan</th><th>$/mo</th><th>Add-Ons</th><th>Status</th><th>Date</th><th></th></tr></thead>
+        <tbody id="res-tbody"></tbody></table>
+        <div id="res-empty" class="empty-st" style="display:none"><div class="ei">👥</div><div class="f7">No residents yet</div><div class="ts mt2">Click "+ Add" to enroll your first resident</div></div>
+      </div>
+    </div>
+
+    <!-- ROUTES -->
+    <div class="page" id="page-routes">
+      <div class="rw jb mb3">
+        <div><div class="stl">Route Tracker</div><div class="ts tm" id="route-dt"></div></div>
+        <div class="rw gap2">
+          <button class="btn bo bsm" onclick="resetRoute()">↺ Reset</button>
+          <button class="btn bg bsm" onclick="markAllDone()">✓ All Done</button>
+        </div>
+      </div>
+      <div class="stats" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat g"><div class="sl">Total Stops</div><div class="sv" id="rt-tot">0</div></div>
+        <div class="stat g"><div class="sl">Done ✓</div><div class="sv" id="rt-dn">0</div></div>
+        <div class="stat o"><div class="sl">Remaining</div><div class="sv" id="rt-rm">0</div></div>
+        <div class="stat b"><div class="sl">Est. Time</div><div class="sv" id="rt-tm">—</div></div>
+      </div>
+      <div class="insw mb3" style="margin-bottom:18px"><div class="ts f7">📍 Woodcrest: 2-Story Garden Style · Buildings A–D · Pickup 7–10 PM</div><div class="ts tm mt2">Tap a unit tile to toggle done/pending. Route progress saves automatically and resets each day.</div></div>
+      <div id="route-floors"></div>
+    </div>
+
+    <!-- BILLING -->
+    <div class="page" id="page-billing">
+      <div class="rw jb mb3">
+        <div><div class="stl">Billing Center</div><div class="ts tm" id="bill-lbl"></div></div>
+        <div class="rw gap2">
+          <button class="btn bo bsm" onclick="exportCSV()">📥 CSV</button>
+          <button class="btn bg bsm" onclick="showToast('📧 Invoices queued!')">📧 Send All</button>
+        </div>
+      </div>
+      <div class="stats" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat o"><div class="sl">Total Billed</div><div class="sv" id="b-tot">$0</div></div>
+        <div class="stat g"><div class="sl">Collected</div><div class="sv" id="b-col">$0</div></div>
+        <div class="stat r"><div class="sl">Outstanding</div><div class="sv" id="b-out">$0</div></div>
+        <div class="stat b"><div class="sl">Collection Rate</div><div class="sv" id="b-rt">—</div></div>
+      </div>
+      <div class="card">
+        <table><thead><tr><th>Unit</th><th>Name</th><th>Plan</th><th>Amount</th><th>Status</th><th>Due</th><th>Action</th></tr></thead>
+        <tbody id="bill-tbody"></tbody></table>
+        <div id="bill-empty" class="empty-st" style="display:none"><div class="ei">💳</div><div class="f7">No billing data</div><div class="ts mt2">Enroll residents first</div></div>
+      </div>
+    </div>
+
+    <!-- SHIFTS -->
+    <div class="page" id="page-shifts">
+      <div class="rw jb mb3">
+        <div><div class="stl">Shift Log</div><div class="ts tm">All pickup shifts · saves permanently</div></div>
+        <button class="btn bg bsm" onclick="openModal('log-shift')">+ Log Shift</button>
+      </div>
+      <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat o"><div class="sl">Total Shifts</div><div class="sv" id="sh-ct">0</div></div>
+        <div class="stat g"><div class="sl">Total Hours</div><div class="sv" id="sh-hr">0</div></div>
+        <div class="stat b"><div class="sl">Bags Collected</div><div class="sv" id="sh-bg">0</div></div>
+      </div>
+      <div class="card">
+        <table><thead><tr><th>Date</th><th>Route</th><th>Hours</th><th>Bags</th><th>Notes</th><th></th></tr></thead>
+        <tbody id="shift-tbody"></tbody></table>
+        <div id="shift-empty" class="empty-st" style="display:none"><div class="ei">⏱️</div><div class="f7">No shifts logged yet</div><div class="ts mt2">Log your first pickup shift above</div></div>
+      </div>
+    </div>
+
+    <!-- FINANCIALS -->
+    <div class="page" id="page-financials">
+      <div class="stl">Financial Model — Woodcrest</div>
+      <div class="card mb3">
+        <div class="ch"><div><h3>Projection Calculator</h3></div></div>
+        <div class="cb" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+          <div><label class="fl">Units: <strong id="sl-u-v">1</strong></label><input type="range" min="1" max="96" value="1" id="sl-u" oninput="calcFin()" style="width:100%;accent-color:var(--accent)"></div>
+          <div><label class="fl">Basic %: <strong id="sl-b-v">50</strong></label><input type="range" min="0" max="100" value="50" id="sl-b" oninput="calcFin()" style="width:100%;accent-color:var(--blue)"></div>
+          <div><label class="fl">Premium %: <strong id="sl-p-v">16</strong></label><input type="range" min="0" max="100" value="16" id="sl-p" oninput="calcFin()" style="width:100%;accent-color:var(--accent)"></div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat o"><div class="sl">Monthly Revenue</div><div class="sv" id="f-rev">$0</div></div>
+        <div class="stat r"><div class="sl">Monthly Expenses</div><div class="sv" id="f-exp">$0</div></div>
+        <div class="stat g"><div class="sl">Monthly Profit</div><div class="sv" id="f-pro">$0</div></div>
+        <div class="stat b"><div class="sl">Profit Margin</div><div class="sv" id="f-mar">—</div></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div><h3>Scenario Table</h3><p>96-unit property · blended avg $68.25/unit</p></div></div>
+        <div class="cb">
+          <table><thead><tr><th>Scenario</th><th>Units</th><th>%</th><th>Revenue/mo</th><th>Expenses</th><th>Profit/mo</th><th>Margin</th><th>Annual Profit</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pr">Break-Even</span></td><td>30</td><td>31%</td><td>$2,048</td><td>$1,600</td><td class="f6">$448</td><td>22%</td><td style="color:var(--accent)" class="f6">$5,376</td></tr>
+            <tr><td><span class="pill pb">50%</span></td><td>48</td><td>50%</td><td>$3,276</td><td>$1,700</td><td class="f6">$1,576</td><td>48%</td><td style="color:var(--accent)" class="f6">$18,912</td></tr>
+            <tr><td><span class="pill pg">70% Target</span></td><td>67</td><td>70%</td><td>$4,573</td><td>$1,950</td><td class="f6">$2,623</td><td>57%</td><td style="color:var(--accent)" class="f6">$31,476</td></tr>
+            <tr><td><span class="pill pg">90% Max</span></td><td>86</td><td>90%</td><td>$5,870</td><td>$2,100</td><td class="f6">$3,770</td><td>64%</td><td style="color:var(--accent)" class="f6">$45,240</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROWTH -->
+    <div class="page" id="page-growth">
+      <div class="stl">Growth Strategy — Beyond Woodcrest</div>
+      <div class="ins mb3"><div class="ts f7">🏁 Prove the model at Woodcrest → pitch every apartment complex in Las Cruces.</div></div>
+      <div class="g2">
+        <div class="card"><div class="ch"><div><h3>Las Cruces Target Properties</h3></div></div><div class="cb" id="growth-targets"></div></div>
+        <div class="card">
+          <div class="ch"><div><h3>Revenue Scale Model</h3><p>At 70% adoption · $68.25 blended avg</p></div></div>
+          <div class="cb">
+            <table><thead><tr><th>Properties</th><th>Units Served</th><th>MRR</th><th>Annual Revenue</th></tr></thead>
+            <tbody>
+              <tr><td class="f6">1 (Now)</td><td>67</td><td class="f6">$4,573</td><td style="color:var(--accent)">$54,876</td></tr>
+              <tr><td class="f6">3</td><td>201</td><td class="f6">$13,718</td><td style="color:var(--accent)">$164,616</td></tr>
+              <tr><td class="f6">5</td><td>335</td><td class="f6">$22,864</td><td style="color:var(--accent)">$274,368</td></tr>
+              <tr><td class="f6">10</td><td>670</td><td class="f6">$45,728</td><td style="color:var(--accent)">$548,736</td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+      <div class="card"><div class="ch"><div><h3>📅 12-Month Roadmap</h3></div></div><div class="cb" id="roadmap-body"></div></div>
+    </div>
+
+    <!-- SIGN-UP PORTAL -->
+    <div class="page" id="page-signup">
+      <div class="stl">Resident Sign-Up Portal</div>
+      <div class="ts tm mb3">Hand your phone to a resident to fill out. Submissions save directly to your Residents list.</div>
+      <div style="max-width:520px;margin:0 auto">
+        <div class="card" style="border:2px solid var(--accent)">
+          <div style="background:var(--ink);padding:22px 28px;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:34px;color:white;letter-spacing:2px">🗑️ TRASHMATES</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:13px;margin-top:5px">Woodcrest Apartments · Las Cruces, NM</div>
+            <div style="color:rgba(255,255,255,0.7);font-size:15px;margin-top:8px;font-style:italic">"Stop hauling your trash. We'll do it for you."</div>
+          </div>
+          <div class="cb" style="padding:26px">
+            <div class="g2">
+              <div class="fg"><label class="fl">Full Name *</label><input class="fi" type="text" id="su-n" placeholder="Jane Smith"></div>
+              <div class="fg"><label class="fl">Unit # *</label><input class="fi" type="text" id="su-u" placeholder="A101"></div>
+            </div>
+            <div class="fg"><label class="fl">Email *</label><input class="fi" type="email" id="su-e" placeholder="jane@email.com"></div>
+            <div class="fg"><label class="fl">Phone</label><input class="fi" type="tel" id="su-ph" placeholder="(575) 000-0000"></div>
+            <div class="fg">
+              <label class="fl">Choose Your Plan</label>
+              <div class="po-card sel" onclick="pickPlan(this,'basic')"><div><div class="f7">BASIC</div><div class="ts tm">2× per week · Tue & Fri</div></div><div style="font-size:22px;font-weight:800">$40<span style="font-size:12px;font-weight:400;color:var(--muted)">/mo</span></div></div>
+              <div class="po-card" onclick="pickPlan(this,'standard')"><div><div class="f7">STANDARD <span class="pill po" style="font-size:10px">Popular</span></div><div class="ts tm">3× per week · Mon, Wed, Fri</div></div><div style="font-size:22px;font-weight:800">$75<span style="font-size:12px;font-weight:400;color:var(--muted)">/mo</span></div></div>
+              <div class="po-card" onclick="pickPlan(this,'premium')"><div><div class="f7">PREMIUM</div><div class="ts tm">Every business day · Mon–Fri</div></div><div style="font-size:22px;font-weight:800">$100<span style="font-size:12px;font-weight:400;color:var(--muted)">/mo</span></div></div>
+            </div>
+            <div class="fg">
+              <label class="fl">Add-Ons</label>
+              <label style="display:flex;align-items:center;gap:10px;padding:10px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;margin-bottom:7px"><input type="checkbox" id="su-pet" style="accent-color:var(--accent)"><div class="f6 ts">🐾 Pet Waste · +$10/mo</div></label>
+              <label style="display:flex;align-items:center;gap:10px;padding:10px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer"><input type="checkbox" id="su-rec" style="accent-color:var(--accent)"><div class="f6 ts">♻️ Recycling Pickup · +$15/mo</div></label>
+            </div>
+            <button class="btn bg" style="width:100%;justify-content:center;padding:14px;font-size:15px" onclick="submitSignup()">🎉 Sign Me Up!</button>
+            <div class="tm ts" style="text-align:center;margin-top:10px;line-height:1.6">First pickup within 48 hours · No contracts · Cancel with 30 days notice</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="ov" id="overlay" style="display:none" onclick="maybeClose(event)">
+  <div class="modal" id="modal-add-resident" style="display:none" onclick="event.stopPropagation()">
+    <div class="mh"><h2>Enroll New Resident</h2><button style="border:none;background:none;font-size:22px;cursor:pointer;color:var(--muted)" onclick="closeModal()">×</button></div>
+    <div class="mb">
+      <div class="g2">
+        <div class="fg"><label class="fl">Full Name *</label><input class="fi" type="text" id="m-name" placeholder="Jane Smith"></div>
+        <div class="fg"><label class="fl">Unit # *</label><input class="fi" type="text" id="m-unit" placeholder="A101"></div>
+      </div>
+      <div class="g2">
+        <div class="fg"><label class="fl">Floor</label><select class="fi fsel" id="m-floor"><option value="1">Floor 1 (Ground)</option><option value="2">Floor 2 (Upper)</option></select></div>
+        <div class="fg"><label class="fl">Unit Type</label><select class="fi fsel" id="m-type"><option value="1BR">1BR/1BA — 700 sq ft</option><option value="2BR">2BR/2BA — 890 sq ft</option></select></div>
+      </div>
+      <div class="fg"><label class="fl">Plan</label><select class="fi fsel" id="m-plan"><option value="basic">Basic — $40/mo (2×/week)</option><option value="standard">Standard — $75/mo (3×/week)</option><option value="premium">Premium — $100/mo (Mon–Fri)</option></select></div>
+      <div class="g2">
+        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="m-email" placeholder="jane@email.com"></div>
+        <div class="fg"><label class="fl">Phone</label><input class="fi" type="tel" id="m-phone" placeholder="(575) 000-0000"></div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <label style="display:flex;align-items:center;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;flex:1"><input type="checkbox" id="m-pet" style="accent-color:var(--accent)"><span class="ts f6">🐾 Pet +$10</span></label>
+        <label style="display:flex;align-items:center;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;flex:1"><input type="checkbox" id="m-rec" style="accent-color:var(--accent)"><span class="ts f6">♻️ Recycling +$15</span></label>
+      </div>
+    </div>
+    <div class="mf"><button class="btn bo" onclick="closeModal()">Cancel</button><button class="btn bg" onclick="addResident()">✓ Enroll</button></div>
+  </div>
+
+  <div class="modal" id="modal-log-shift" style="display:none" onclick="event.stopPropagation()">
+    <div class="mh"><h2>Log Pickup Shift</h2><button style="border:none;background:none;font-size:22px;cursor:pointer;color:var(--muted)" onclick="closeModal()">×</button></div>
+    <div class="mb">
+      <div class="g2">
+        <div class="fg"><label class="fl">Date *</label><input class="fi" type="date" id="sh-date"></div>
+        <div class="fg"><label class="fl">Hours</label><input class="fi" type="number" id="sh-hrs" placeholder="2.5" step="0.5" min="0"></div>
+      </div>
+      <div class="g2">
+        <div class="fg"><label class="fl">Bags Collected</label><input class="fi" type="number" id="sh-bags" placeholder="38" min="0"></div>
+        <div class="fg"><label class="fl">Route</label><input class="fi" type="text" id="sh-route" placeholder="All buildings · Fl 1+2"></div>
+      </div>
+      <div class="fg"><label class="fl">Notes</label><input class="fi" type="text" id="sh-notes" placeholder="Issues, weather, missed stops..."></div>
+    </div>
+    <div class="mf"><button class="btn bo" onclick="closeModal()">Cancel</button><button class="btn bg" onclick="logShift()">✓ Save</button></div>
+  </div>
+</div>
+
+<div id="toast"><span id="toast-msg"></span></div>
+
+<script>
+// =============================================
+// STORAGE (window.storage API with JSON parse)
+// =============================================
+const DB = {
+  async get(k) {
+    try { const r = await window.storage.get(k); return r ? JSON.parse(r.value) : null; }
+    catch(e) { return null; }
+  },
+  async set(k, v) {
+    try { await window.storage.set(k, JSON.stringify(v)); flash(); }
+    catch(e) { console.warn('save error', e); }
+  },
+  async del(k) { try { await window.storage.delete(k); } catch(e) {} }
+};
+
+function flash() {
+  const el = document.getElementById('saved-ind');
+  el.style.opacity = '1';
+  clearTimeout(window._ft);
+  window._ft = setTimeout(() => el.style.opacity = '0', 1800);
+}
+
+// =============================================
+// STATE
+// =============================================
+let residents  = [];   // {id,name,unit,floor,type,plan,amount,addons,email,phone,status,enrolled}
+let billStatus = {};   // {id: 'paid'|'overdue'|'pending'}
+let routeDone  = {};   // {unit: bool} — resets daily
+let routeDate  = '';
+let shifts     = [];   // [{id,date,route,hours,bags,notes}]
+let checklist  = [];   // [{id,text,done,date}]
+let suPlan     = 'basic';
+
+const BLDS = ['A','B','C','D'];
+const ALL_UNITS = [];
+BLDS.forEach(b => {
+  for(let f=1;f<=2;f++) for(let u=1;u<=12;u++)
+    ALL_UNITS.push({unit:`${b}${f}${String(u).padStart(2,'0')}`,building:b,floor:f,type:u%3===0?'2BR':'1BR'});
+});
+
+const CL_DEFAULTS = [
+  'Drop flyers on unenrolled doors',
+  'Complete tonight\'s pickup route (7–10 PM)',
+  'Follow up on pending sign-ups',
+  'Check for overdue invoices',
+  'Log tonight\'s shift after route'
+];
+
+// =============================================
+// INIT
+// =============================================
+async function init() {
+  residents  = (await DB.get('tm:residents')) || [];
+  billStatus = (await DB.get('tm:billing'))   || {};
+  shifts     = (await DB.get('tm:shifts'))    || [];
+  checklist  = (await DB.get('tm:checklist')) || [];
+
+  const today = new Date().toISOString().split('T')[0];
+  try {
+    const rt = await DB.get('tm:route');
+    if (rt && rt.date === today) { routeDone = rt.done || {}; routeDate = today; }
+    else { routeDone = {}; routeDate = today; }
+  } catch(e) { routeDone = {}; routeDate = today; }
+
+  if (!checklist.length) {
+    checklist = CL_DEFAULTS.map((text,i) => ({id:'cl'+i,text,done:false,date:today}));
+    await DB.set('tm:checklist', checklist);
+  }
+
+  document.getElementById('sh-date').value = today;
+  refreshDash();
+  renderChecklist();
+  renderGrowthTargets();
+  renderRoadmap();
+}
+
+// =============================================
+// NAV
+// =============================================
+function goPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  const T = {dashboard:'Dashboard',residents:'Residents',routes:'Route Tracker',billing:'Billing',shifts:'Shift Log',financials:'Financials',growth:'Growth Strategy',signup:'Sign-Up Portal'};
+  document.getElementById('pg-title').textContent = T[id] || id;
+  if(id==='residents') renderResidents();
+  if(id==='routes')    renderRoutes();
+  if(id==='billing')   renderBilling();
+  if(id==='shifts')    renderShifts();
+  if(id==='financials') calcFin();
+}
+
+// =============================================
+// DASHBOARD
+// =============================================
+function refreshDash() {
+  const active = residents.filter(r => r.status === 'active');
+  const n = active.length;
+  const rev = active.reduce((s,r) => s + r.amount, 0);
+  const exp = Math.min(2100, 800 + n * 14);
+  const profit = rev - exp;
+  const margin = rev > 0 ? ((profit/rev)*100).toFixed(1) : 0;
+  const pct = Math.round((n/96)*100);
+
+  document.getElementById('d-enr').textContent = n;
+  document.getElementById('d-rate').textContent = pct + '%';
+  document.getElementById('d-rev').textContent = '$' + rev.toLocaleString();
+  document.getElementById('d-profit').textContent = '$' + profit.toLocaleString();
+  document.getElementById('d-margin-n').textContent = profit > 0 ? `Margin: ${margin}% · profitable!` : n >= 30 ? `Almost there!` : `Need ${30-n} more to break even`;
+
+  // Ring
+  document.getElementById('ring-arc').setAttribute('stroke-dashoffset', 339 - (pct/100)*339);
+  document.getElementById('ring-pct').textContent = pct + '%';
+
+  // Tier bars
+  const basic = active.filter(r=>r.plan==='basic').length;
+  const std   = active.filter(r=>r.plan==='standard').length;
+  const prem  = active.filter(r=>r.plan==='premium').length;
+  const mx    = Math.max(1, n);
+  document.getElementById('c-basic').textContent = basic + ' units';
+  document.getElementById('c-std').textContent   = std + ' units';
+  document.getElementById('c-prem').textContent  = prem + ' units';
+  document.getElementById('b-basic').style.width = (basic/mx*100)+'%';
+  document.getElementById('b-std').style.width   = (std/mx*100)+'%';
+  document.getElementById('b-prem').style.width  = (prem/mx*100)+'%';
+
+  // Break-even box
+  const box = document.getElementById('be-msg');
+  if(profit > 0) { box.className='ins'; box.innerHTML=`<div class="ts f7">🎉 Profitable! Past break-even.</div><div class="ts tm mt2">Monthly profit: <strong>$${profit.toLocaleString()}</strong> · ${margin}% margin. Keep growing!</div>`; }
+  else if(n >= 25) { box.className='insw'; box.innerHTML=`<div class="ts f7">⚡ Almost there — ${30-n} units to break-even.</div><div class="ts tm mt2">At 30 enrolled, revenue covers all expenses.</div>`; }
+  else { box.className='ins'; box.innerHTML=`<div class="ts f7">🎯 Break-Even: 30 Units</div><div class="ts tm mt2">At ${n} enrolled. Need ${Math.max(0,30-n)} more to cover ~$1,600/mo in expenses.</div>`; }
+
+  // Chip
+  const pending = residents.filter(r=>r.status==='pending').length;
+  const chip = document.getElementById('chip-enrolled');
+  chip.textContent = `● ${n} enrolled${pending?` · ${pending} pending`:''}`;
+  chip.className = 'pill ' + (n > 0 ? 'pg' : 'pm');
+}
+
+// =============================================
+// CHECKLIST
+// =============================================
+function renderChecklist() {
+  const today = new Date().toISOString().split('T')[0];
+  let changed = false;
+  checklist.forEach(c => { if(c.date !== today && c.done) { c.done=false; c.date=today; changed=true; } });
+  if(changed) DB.set('tm:checklist', checklist);
+
+  document.getElementById('checklist-body').innerHTML = checklist.map(c => `
+    <label style="display:flex;align-items:center;gap:9px;padding:7px 0;cursor:pointer;border-bottom:1px solid var(--border)">
+      <input type="checkbox" ${c.done?'checked':''} onchange="toggleCheck('${c.id}',this)" style="accent-color:var(--accent);width:16px;height:16px;flex-shrink:0">
+      <span style="font-size:13px;${c.done?'text-decoration:line-through;color:var(--muted)':''}">${c.text}</span>
+    </label>`).join('') + `
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <input class="fi" id="new-task" type="text" placeholder="Add a task..." style="flex:1;font-size:13px;padding:7px 11px" onkeydown="if(event.key==='Enter')addTask()">
+      <button class="btn bg bsm" onclick="addTask()">Add</button>
+    </div>`;
+}
+
+async function toggleCheck(id, el) {
+  const c = checklist.find(x => x.id === id);
+  if(c) { c.done = el.checked; c.date = new Date().toISOString().split('T')[0]; }
+  await DB.set('tm:checklist', checklist);
+  renderChecklist();
+}
+
+async function addTask() {
+  const inp = document.getElementById('new-task');
+  const text = inp.value.trim();
+  if(!text) return;
+  checklist.push({id:'cl'+Date.now(), text, done:false, date:new Date().toISOString().split('T')[0]});
+  await DB.set('tm:checklist', checklist);
+  renderChecklist();
+}
+
+// =============================================
+// RESIDENTS
+// =============================================
+function renderResidents(q='', pf='') {
+  let data = [...residents];
+  if(q) data = data.filter(r => r.name.toLowerCase().includes(q) || r.unit.toLowerCase().includes(q));
+  if(pf === 'pending') data = data.filter(r => r.status === 'pending');
+  else if(pf) data = data.filter(r => r.plan === pf);
+
+  const active = residents.filter(r=>r.status==='active').length;
+  const pending = residents.filter(r=>r.status==='pending').length;
+  document.getElementById('res-lbl').textContent = `${active} active · ${pending} pending`;
+
+  const PC = {basic:'pb',standard:'po',premium:'pg'};
+  const SC = {active:'pg',pending:'po'};
+
+  if(!data.length) {
+    document.getElementById('res-tbody').innerHTML='';
+    document.getElementById('res-empty').style.display='block';
+    return;
+  }
+  document.getElementById('res-empty').style.display='none';
+  document.getElementById('res-tbody').innerHTML = data.map(r => {
+    const addons = [(r.addons?.pet?'🐾':''),(r.addons?.rec?'♻️':'')].filter(Boolean).join(' ');
+    return `<tr>
+      <td class="mono f6">${r.unit}</td><td class="ts">Fl.${r.floor}</td>
+      <td><span class="pill pm">${r.type}</span></td>
+      <td class="f6">${r.name}</td>
+      <td><span class="pill ${PC[r.plan]||'pm'}">${r.plan}</span></td>
+      <td class="mono f6">$${r.amount}</td>
+      <td>${addons||'<span class="tm">—</span>'}</td>
+      <td><span class="pill ${SC[r.status]||'pm'}"><span class="dot"></span>${r.status}</span></td>
+      <td class="ts tm">${r.enrolled}</td>
+      <td style="display:flex;gap:5px">
+        ${r.status==='pending'?`<button class="btn bsm bg" onclick="activateRes('${r.id}')">Activate</button>`:''}
+        <button class="btn bsm bo" onclick="removeRes('${r.id}')">✕</button>
+      </td></tr>`;
+  }).join('');
+}
+
+function filterRes() { renderResidents(document.getElementById('res-q').value.toLowerCase(), document.getElementById('res-pf').value); }
+
+async function addResident() {
+  const name  = document.getElementById('m-name').value.trim();
+  const unit  = document.getElementById('m-unit').value.trim().toUpperCase();
+  const plan  = document.getElementById('m-plan').value;
+  const floor = parseInt(document.getElementById('m-floor').value);
+  const type  = document.getElementById('m-type').value;
+  const email = document.getElementById('m-email').value.trim();
+  const phone = document.getElementById('m-phone').value.trim();
+  const pet   = document.getElementById('m-pet').checked;
+  const rec   = document.getElementById('m-rec').checked;
+  if(!name||!unit){showToast('⚠️ Name and Unit are required','w');return;}
+  if(residents.find(r=>r.unit===unit)){showToast('⚠️ Unit '+unit+' already enrolled','w');return;}
+  const base = {basic:40,standard:75,premium:100}[plan];
+  const amount = base + (pet?10:0) + (rec?15:0);
+  residents.push({id:'r'+Date.now(),name,unit,floor,type,plan,amount,addons:{pet,rec},email,phone,status:'active',enrolled:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})});
+  await DB.set('tm:residents', residents);
+  ['m-name','m-unit','m-email','m-phone'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('m-pet').checked=false; document.getElementById('m-rec').checked=false;
+  closeModal(); refreshDash(); renderResidents();
+  showToast(`✓ ${name} (${unit}) enrolled!`);
+}
+
+async function activateRes(id) {
+  const r = residents.find(x=>x.id===id);
+  if(r){r.status='active'; await DB.set('tm:residents',residents); refreshDash(); renderResidents(); showToast('✓ Activated!');}
+}
+
+async function removeRes(id) {
+  const r = residents.find(x=>x.id===id);
+  if(!r||!confirm(`Remove ${r.name} (${r.unit})?`)) return;
+  residents = residents.filter(x=>x.id!==id);
+  await DB.set('tm:residents',residents); refreshDash(); renderResidents();
+  showToast(r.name+' removed');
+}
+
+// =============================================
+// ROUTES
+// =============================================
+function renderRoutes() {
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const now=new Date();
+  document.getElementById('route-dt').textContent=`${days[now.getDay()]}, ${now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})} · 7:00–10:00 PM`;
+  const subs = new Set(residents.filter(r=>r.status==='active').map(r=>r.unit));
+  let html='';
+  BLDS.forEach(b=>{
+    for(let f=1;f<=2;f++){
+      const units=ALL_UNITS.filter(u=>u.building===b&&u.floor===f);
+      const active=units.filter(u=>subs.has(u.unit));
+      if(!active.length) return;
+      const key=`${b}${f}`;
+      const done=active.filter(u=>routeDone[u.unit]).length;
+      html+=`<div class="card" style="margin-bottom:14px">
+        <div class="ch" style="padding-bottom:14px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="f7 ts">Building ${b} — Floor ${f}</span>
+            <span class="pill ${done===active.length?'pg':'po'}">${done}/${active.length} done</span>
+          </div>
+          <button class="btn bo bsm" onclick="markFloor('${key}')">✓ Floor Done</button>
+        </div>
+        <div class="cb" style="padding-top:4px"><div class="unit-grid">
+          ${units.map(u=>{
+            const isSub=subs.has(u.unit);
+            const cls=isSub?(routeDone[u.unit]?'sd':'sp'):'eu';
+            return `<div class="ut ${cls}" id="rt-${u.unit}" onclick="${isSub?`tog('${u.unit}')`:''}" title="${u.unit}">
+              <div class="un">${u.unit}</div><div class="utp">${isSub?u.type:'—'}</div></div>`;
+          }).join('')}
+        </div></div></div>`;
+    }
+  });
+  if(!html) html=`<div class="empty-st"><div class="ei">🗺️</div><div class="f7">No subscribers yet</div><div class="ts mt2">Enroll residents to build your route</div></div>`;
+  document.getElementById('route-floors').innerHTML=html;
+  updateRtStats();
+}
+
+async function tog(unit) {
+  routeDone[unit]=!routeDone[unit];
+  const el=document.getElementById('rt-'+unit);
+  if(el){el.className=`ut ${routeDone[unit]?'sd':'sp'}`;}
+  await DB.set('tm:route',{date:routeDate,done:routeDone});
+  updateRtStats();
+  // refresh floor header badge without full re-render
+  renderRoutes();
+}
+
+function updateRtStats(){
+  const tot=residents.filter(r=>r.status==='active').length;
+  const dn=Object.values(routeDone).filter(Boolean).length;
+  const rm=Math.max(0,tot-dn);
+  document.getElementById('rt-tot').textContent=tot;
+  document.getElementById('rt-dn').textContent=dn;
+  document.getElementById('rt-rm').textContent=rm;
+  document.getElementById('rt-tm').textContent=rm===0&&tot>0?'Done! 🎉':rm===0?'—':`~${Math.ceil(rm*3/60)}h${(rm*3)%60>0?(rm*3)%60+'m':''}`;
+}
+
+async function markFloor(key){
+  const b=key[0],f=parseInt(key[1]);
+  const subs=new Set(residents.filter(r=>r.status==='active').map(r=>r.unit));
+  ALL_UNITS.filter(u=>u.building===b&&u.floor===f&&subs.has(u.unit)).forEach(u=>{routeDone[u.unit]=true;});
+  await DB.set('tm:route',{date:routeDate,done:routeDone});
+  renderRoutes(); showToast(`Building ${b} Floor ${f} done!`);
+}
+
+async function markAllDone(){
+  residents.filter(r=>r.status==='active').forEach(r=>{routeDone[r.unit]=true;});
+  await DB.set('tm:route',{date:routeDate,done:routeDone});
+  renderRoutes(); showToast('🎉 All routes complete!');
+}
+
+async function resetRoute(){routeDone={};await DB.set('tm:route',{date:routeDate,done:{}});renderRoutes();showToast('Route reset');}
+
+// =============================================
+// BILLING
+// =============================================
+function renderBilling(){
+  const active=residents.filter(r=>r.status==='active');
+  const now=new Date();
+  document.getElementById('bill-lbl').textContent=now.toLocaleDateString('en-US',{month:'long',year:'numeric'})+' · Woodcrest';
+  const tot=active.reduce((s,r)=>s+r.amount,0);
+  let paid=0,out=0;
+  active.forEach(r=>{const st=billStatus[r.id]||'pending';if(st==='paid')paid+=r.amount;else out+=r.amount;});
+  document.getElementById('b-tot').textContent='$'+tot.toLocaleString();
+  document.getElementById('b-col').textContent='$'+paid.toLocaleString();
+  document.getElementById('b-out').textContent='$'+out.toLocaleString();
+  document.getElementById('b-rt').textContent=tot>0?Math.round((paid/tot)*100)+'%':'—';
+  if(!active.length){document.getElementById('bill-tbody').innerHTML='';document.getElementById('bill-empty').style.display='block';return;}
+  document.getElementById('bill-empty').style.display='none';
+  const due=new Date(now.getFullYear(),now.getMonth()+1,1).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  document.getElementById('bill-tbody').innerHTML=active.map(r=>{
+    const st=billStatus[r.id]||'pending';
+    return `<tr><td class="mono f6">${r.unit}</td><td class="f6">${r.name}</td><td><span class="pill pm">${r.plan}</span></td>
+      <td class="mono f6">$${r.amount}</td>
+      <td><select class="fi fsel" style="padding:4px 28px 4px 8px;font-size:12px;width:auto" onchange="setBill('${r.id}',this.value)">
+        <option value="pending" ${st==='pending'?'selected':''}>Pending</option>
+        <option value="paid" ${st==='paid'?'selected':''}>✓ Paid</option>
+        <option value="overdue" ${st==='overdue'?'selected':''}>Overdue</option>
+      </select></td>
+      <td class="ts tm">${due}</td>
+      <td>${st!=='paid'?`<button class="btn bsm bo" onclick="showToast('📧 Reminder sent to ${r.name}!')">📧 Remind</button>`:'<span class="tm ts">—</span>'}</td></tr>`;
+  }).join('');
+}
+
+async function setBill(id,st){billStatus[id]=st;await DB.set('tm:billing',billStatus);renderBilling();}
+
+function exportCSV(){
+  const active=residents.filter(r=>r.status==='active');
+  const rows=[['Unit','Name','Plan','Amount','Status','Enrolled'],...active.map(r=>[r.unit,r.name,r.plan,'$'+r.amount,billStatus[r.id]||'pending',r.enrolled])];
+  const csv=rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='trashmates-billing.csv';a.click();
+  showToast('📥 CSV exported!');
+}
+
+// =============================================
+// SHIFTS
+// =============================================
+function renderShifts(){
+  document.getElementById('sh-ct').textContent=shifts.length;
+  document.getElementById('sh-hr').textContent=shifts.reduce((s,sh)=>s+(parseFloat(sh.hours)||0),0).toFixed(1);
+  document.getElementById('sh-bg').textContent=shifts.reduce((s,sh)=>s+(parseInt(sh.bags)||0),0);
+  if(!shifts.length){document.getElementById('shift-tbody').innerHTML='';document.getElementById('shift-empty').style.display='block';return;}
+  document.getElementById('shift-empty').style.display='none';
+  document.getElementById('shift-tbody').innerHTML=[...shifts].reverse().map(sh=>`
+    <tr><td class="mono f6">${sh.date}</td><td class="ts tm">${sh.route||'—'}</td>
+    <td>${sh.hours||'—'}h</td><td>${sh.bags||'—'}</td>
+    <td class="ts tm">${sh.notes||'—'}</td>
+    <td><button class="btn bsm bo" onclick="delShift('${sh.id}')">✕</button></td></tr>`).join('');
+}
+
+async function logShift(){
+  const date=document.getElementById('sh-date').value;
+  const hours=document.getElementById('sh-hrs').value;
+  const bags=document.getElementById('sh-bags').value;
+  const route=document.getElementById('sh-route').value.trim();
+  const notes=document.getElementById('sh-notes').value.trim();
+  if(!date){showToast('⚠️ Enter a date','w');return;}
+  shifts.push({id:'sh'+Date.now(),date,hours,bags,route,notes});
+  await DB.set('tm:shifts',shifts);
+  closeModal(); renderShifts(); showToast('✓ Shift logged!');
+}
+
+async function delShift(id){shifts=shifts.filter(s=>s.id!==id);await DB.set('tm:shifts',shifts);renderShifts();showToast('Shift removed');}
+
+// =============================================
+// FINANCIALS
+// =============================================
+function calcFin(){
+  const u=parseInt(document.getElementById('sl-u').value);
+  const b=parseInt(document.getElementById('sl-b').value)/100;
+  const p=Math.min(parseInt(document.getElementById('sl-p').value)/100,1-b);
+  const s=Math.max(0,1-b-p);
+  document.getElementById('sl-u-v').textContent=u;
+  document.getElementById('sl-b-v').textContent=Math.round(b*100);
+  document.getElementById('sl-p-v').textContent=Math.round(p*100);
+  const rev=Math.round(u*(b*40+s*75+p*100));
+  const exp=Math.min(2100,800+u*14);
+  const profit=rev-exp;
+  document.getElementById('f-rev').textContent='$'+rev.toLocaleString();
+  document.getElementById('f-exp').textContent='$'+Math.round(exp).toLocaleString();
+  document.getElementById('f-pro').textContent='$'+profit.toLocaleString();
+  document.getElementById('f-pro').style.color=profit>=0?'var(--accent)':'var(--red)';
+  document.getElementById('f-mar').textContent=rev>0?Math.round((profit/rev)*100)+'%':'—';
+}
+
+// =============================================
+// GROWTH
+// =============================================
+function renderGrowthTargets(){
+  const targets=[
+    {name:'Woodcrest Apartments',units:96,addr:'2241 Entrada Del Sol',st:'Active',note:'Your launch property!'},
+    {name:'Casa Bandera Apts',units:150,addr:'855 E University Ave',st:'Target',note:'Near NMSU — high student density'},
+    {name:'Flats at Ridgeview',units:200,addr:'2050 Wisconsin Ave',st:'Target',note:'Modern, higher income renters'},
+    {name:'Sierra Verde',units:120,addr:'NE Las Cruces',st:'Target',note:'Luxury segment, premium tier potential'},
+    {name:'Sun Ridge Village',units:180,addr:'E Las Cruces',st:'Target',note:'Fastest-growing area of city'},
+    {name:'Near Lohman Apts',units:90,addr:'Near Lohman Ave',st:'Target',note:'Same neighborhood — efficient route!'},
+  ];
+  const el=document.getElementById('growth-targets');
+  if(!el) return;
+  el.innerHTML=targets.map(t=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+      <span class="pill ${t.st==='Active'?'pg':'po'}" style="flex-shrink:0">${t.st}</span>
+      <div style="flex:1"><div class="f7 ts">${t.name}</div><div class="tm ts">${t.addr} · ${t.units} units</div>
+      <div style="font-size:11px;color:var(--blue);margin-top:1px">${t.note}</div></div>
+      <div class="ts f6 tm">~$${Math.round(t.units*0.7*68.25).toLocaleString()}/mo</div>
+    </div>`).join('');
+}
+
+function renderRoadmap(){
+  const phases=[
+    {m:'Months 1–2',t:'Launch at Woodcrest',c:'var(--accent)',items:['Flyers on all 96 doors','Meet Las Cruces Rentals: (575) 888-8337','Sign-up table at leasing office','Start service (target 30 units)','Owner-operated']},
+    {m:'Months 3–5',t:'Growth Push',c:'var(--gold)',items:['Referral program: $10 off/mo','Push to 50% adoption (48 units)','Property manager review meeting','Identify 2 expansion targets']},
+    {m:'Months 6–9',t:'First Expansion',c:'var(--blue)',items:['Pitch 2nd complex','Hire part-time at 55+ units','Route efficiency with clusters','Build ops playbook']},
+    {m:'Months 10–12',t:'Scale Mode',c:'var(--red)',items:['3 properties in Las Cruces','$12k–$20k MRR portfolio','Full-time ops role','Year 2 target: 6–10 properties']},
+  ];
+  const el=document.getElementById('roadmap-body');
+  if(!el) return;
+  el.innerHTML=phases.map(p=>`
+    <div style="display:flex;gap:16px;margin-bottom:20px">
+      <div style="flex-shrink:0;width:120px;text-align:right">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:${p.c}">${p.m}</div>
+        <div class="f7 ts" style="margin-top:4px">${p.t}</div>
+      </div>
+      <div style="width:2px;background:${p.c};border-radius:1px;flex-shrink:0;margin:4px 0"></div>
+      <div style="flex:1">${p.items.map(i=>`<div style="display:flex;gap:8px;font-size:12.5px;padding:4px 0"><span style="color:${p.c};font-weight:700;flex-shrink:0">→</span>${i}</div>`).join('')}</div>
+    </div>`).join('');
+}
+
+// =============================================
+// SIGN-UP PORTAL
+// =============================================
+function pickPlan(el,plan){document.querySelectorAll('.po-card').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');suPlan=plan;}
+
+async function submitSignup(){
+  const name=document.getElementById('su-n').value.trim();
+  const unit=document.getElementById('su-u').value.trim().toUpperCase();
+  const email=document.getElementById('su-e').value.trim();
+  const phone=document.getElementById('su-ph').value.trim();
+  const pet=document.getElementById('su-pet').checked;
+  const rec=document.getElementById('su-rec').checked;
+  if(!name||!unit||!email){showToast('⚠️ Name, unit, and email required','w');return;}
+  if(residents.find(r=>r.unit===unit)){showToast('⚠️ Unit '+unit+' already enrolled','w');return;}
+  const base={basic:40,standard:75,premium:100}[suPlan];
+  const amount=base+(pet?10:0)+(rec?15:0);
+  residents.push({id:'r'+Date.now(),name,unit,floor:1,type:'1BR',plan:suPlan,amount,addons:{pet,rec},email,phone,status:'pending',enrolled:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})});
+  await DB.set('tm:residents',residents);
+  ['su-n','su-u','su-e','su-ph'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('su-pet').checked=false;document.getElementById('su-rec').checked=false;
+  refreshDash();
+  showToast(`🎉 ${name.split(' ')[0]} signed up! Activate them in Residents.`);
+}
+
+// =============================================
+// MODAL & TOAST
+// =============================================
+function openModal(id){document.getElementById('overlay').style.display='flex';document.querySelectorAll('.modal').forEach(m=>m.style.display='none');document.getElementById('modal-'+id).style.display='block';}
+function closeModal(){document.getElementById('overlay').style.display='none';}
+function maybeClose(e){if(e.target.id==='overlay')closeModal();}
+
+let _tt;
+function showToast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.style.background=type==='w'?'#f59e0b':'var(--ink)';
+  t.style.transform='translateY(0)';
+  clearTimeout(_tt);
+  _tt=setTimeout(()=>t.style.transform='translateY(80px)',3200);
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// =============================================
+// START
+// =============================================
+init();
+</script>
+</body>
+</html>
